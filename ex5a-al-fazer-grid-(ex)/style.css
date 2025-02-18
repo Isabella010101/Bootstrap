@@ -1,0 +1,16 @@
+@media (max-width: 768px) {
+    
+    .custom-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .col-sm-4 {
+        margin: 10px;
+        text-align: center;
+
+        width: 300px;
+    }
+
+}

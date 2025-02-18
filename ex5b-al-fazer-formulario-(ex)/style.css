@@ -1,0 +1,34 @@
+body {
+    background-image: url(img/plain-blue-background.jpg);
+
+    height: 100vh;
+    width: 100vw;
+    
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    padding: 20px;
+    width: 450px;
+
+    display: flex;
+    align-items: center;
+}
+
+.links {
+    font-size: 0.8rem;
+
+    display: flex;
+    justify-content: space-around;
+
+    margin-top: 10px;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+
+    width: 372px;
+}
+
