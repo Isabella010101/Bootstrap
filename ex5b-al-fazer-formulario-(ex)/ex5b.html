@@ -15,6 +15,72 @@
 
     <link rel = "stylesheet" href = "style.css">
 
+    <!-- cep ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+    <script>
+
+            function limpa_formulário_cep() {
+                //Limpa valores do formulário de cep.
+                document.getElementById('rua').value=("");
+                document.getElementById('cidade').value=("");
+        }
+
+        function meu_callback(conteudo) {
+            if (!("erro" in conteudo)) {
+                //Atualiza os campos com os valores.
+                document.getElementById('rua').value=(conteudo.logradouro);
+                document.getElementById('cidade').value=(conteudo.localidade);
+            } //end if.
+            else {
+                //CEP não Encontrado.
+                limpa_formulário_cep();
+                alert("CEP não encontrado.");
+            }
+        }
+            
+        function pesquisacep(valor) {
+
+            //Nova variável "cep" somente com dígitos.
+            var cep = valor.replace(/\D/g, '');
+
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
+
+                //Valida o formato do CEP.
+                if(validacep.test(cep)) {
+
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    document.getElementById('rua').value="...";
+                    document.getElementById('cidade').value="...";
+
+                    //Cria um elemento javascript.
+                    var script = document.createElement('script');
+
+                    //Sincroniza com o callback.
+                    script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                    //Insere script no documento e carrega o conteúdo.
+                    document.body.appendChild(script);
+
+                } //end if.
+                else {
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+        };
+
+    </script>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
  </head>
  <body>
 
@@ -24,24 +90,27 @@
 
         <div class="custom-form">
             <div class="col">
+
                 <div class="input-group mt-3">
                     <span class = "input-group-text custom-icon bg-warning">
-                        <i class="bi bi-envelope"></i>
+                        <i class="bi bi-geo-alt"></i>
                     </span>
-                    <input type = "email" class = "form-control custom-input" placeholder = "E-mail" required>
+                    <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
+                    onblur="pesquisacep(this.value);" class = "form-control custom-input" placeholder="CEP">
                 </div>
 
                 <div class="input-group mt-3">
                     <span class = "input-group-text custom-icon bg-warning">
-                        <i class="bi bi-lock"></i>
+                        <i class="bi bi-signpost"></i>
                     </span>
-                    <input type = "password" class = "form-control custom-input" placeholder = "Senha" >
+                    <input name="rua" type="text" id="rua" size="60" placeholder="Rua" class = "form-control custom-input">
                 </div>
 
-                <div class="links">
-                    <a href="#">Esqueci a senha</a>
-
-                    <a href="#">Não está cadastrado?</a>
+                <div class="input-group mt-3">
+                    <span class = "input-group-text custom-icon bg-warning">
+                        <i class="bi bi-building"></i>
+                    </span>
+                    <input name="cidade" type="text" id="cidade" placeholder="Cidade" size="40" class = "form-control custom-input">
                 </div>
 
                 <button type="submit" class="btn btn-warning custom-button mt-3">
